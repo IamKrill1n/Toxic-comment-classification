@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 # Big Files
-glove.6B.50d.txt
+glove_embeddings/
