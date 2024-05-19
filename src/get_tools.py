@@ -130,7 +130,7 @@ def clean_text_light(text: str) -> str:
 
 
 def main() -> None:
-    print(remove_special_characters('dumb fuck say non sence hey dumb fuck know retard look like go look mirror fuck iamgodfuckyouassbiteneverdaremesswithkingvodious fuck youcantstopmeyoufuckingretardiwishyouwereheresoi couldstickmyfootupyourassanduseyouasanoddsandal'))
+    print(clean_text_vanila('dumb fuck say non sence hey dumb fuck know retard look like go look mirror fuck iamgodfuckyouassbiteneverdaremesswithkingvodious fuck youcantstopmeyoufuckingretardiwishyouwereheresoi couldstickmyfootupyourassanduseyouasanoddsandal'))
 
 if __name__ == '__main__':
     main()
