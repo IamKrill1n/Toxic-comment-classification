@@ -161,5 +161,4 @@ cython_debug/
 
 # Big Files
 glove_embeddings/
-# https://www.kaggle.com/datasets/yekenot/fasttext-crawl-300d-2m - warrning: large file
-fasttext-embeddings/
+fasttext_embeddings/
