@@ -2,7 +2,7 @@ from os import chdir, path, getcwd
 import json
 import re
 import string
-
+from unidecode import unidecode
 
 if getcwd().endswith("src"):
     chdir(path.pardir)
@@ -51,11 +51,14 @@ for k in badwords_fix:
 
 def remove_special_characters(text: str) -> str:
 
+    # https://pypi.org/project/Unidecode/
+    text = unidecode(text)
+
     # Remove non ascii characters: this will remove any emoji too
     text = re.sub(r'[^\x00-\x7f]', r' ', text)
 
     # Convert to lowercase
-    text = text.lower()
+    # text = text.lower()
 
     # Remove emojis
     # text = re.sub(r'[\U00010000-\U0010ffff]', r'', text, flags=re.UNICODE)
@@ -83,7 +86,9 @@ def remove_special_characters(text: str) -> str:
         text = re.sub(v, k, text)
     
     # Remove punctuation
-    text = re.sub(r'[]!"$%&()*+,./:;=#@?[/^_`{|}~-]+', r' ', text)
+    # this will keep some common punctuation
+    text = re.sub(r'[]"$%&()*+/:;=#@[/^_`{|}~]+', r' ', text)
+    # text = re.sub(r'[]!"$%&()*+,./:;=#@?[/^_`{|}~-]+', r' ', text)
 
     # Replace appos
     words=[APPO[word] if word in APPO else word for word in text.split()]
