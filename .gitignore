@@ -162,3 +162,4 @@ cython_debug/
 # Big Files
 glove_embeddings/
 fasttext_embeddings/
+*.h5
