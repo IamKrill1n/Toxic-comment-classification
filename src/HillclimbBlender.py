@@ -46,6 +46,7 @@ class HillclimbBlender:
         self.test = pd.read_csv(test_df_path).fillna(' ')
         self.labels = self.train.columns[2:]
         self.model_num = model_num
+        self.submission_folder = submission_folder_path
 
         self.sample_submission = pd.read_csv(sample_submission_path)
 
@@ -80,15 +81,14 @@ class HillclimbBlender:
         best_ensemble = []
         
         for i in range(len(self.oof_files)):
-            ensemble.append(i)
-
+            ensemble = ensemble + [i]
             score = self.score_ensemble(ensemble, label)
             
             if score > best_score:
                 best_score  = score
                 best_ensemble = ensemble
                 
-            ensemble.pop()
+            ensemble = ensemble[:-1]
         
         return best_ensemble, best_score
 
@@ -124,13 +124,13 @@ class HillclimbBlender:
         for i in range(iter):
             print('-------------')
             print('Step', i + 1)    
-            self.hill_climb
+            self.hill_climb()
             print('Best ensemble:')
             print(self.best_ensemble)
             print('Best score:')
             print(self.best_score)
             print('Avg. AUC score:', np.mean([self.best_score[label] for label in self.labels]))
-            print('-------------')
+        print('-------------')
 
         opt_w = self.get_optimal_weights()
         print('Optimal weights:')
@@ -138,11 +138,19 @@ class HillclimbBlender:
         
         blend = self.get_optimal_blend(opt_w)
         
-        blend.to_csv('hillclimb_' + '_'.join(self.model_num) + '.csv', index=False)
+        blend.to_csv(self.submission_folder + 'hillclimb_' + '_'.join([str(i) for i in self.model_num]) + '.csv', index=False)
 
 
 
 def main() -> None:
+    from os import chdir, path, getcwd
+    if getcwd().endswith("src"):
+        chdir(path.pardir)
+    if path.isfile("checkcwd"):
+        print("Success")
+    else:
+        raise Exception("Something went wrong. cwd=" + getcwd())
+
     blender = HillclimbBlender()
     blender.run()
 
