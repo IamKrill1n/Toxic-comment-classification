@@ -12,8 +12,8 @@ else:
     raise Exception("Something went wrong. cwd=" + getcwd())
 
 
-input_dir = 'kaggle\\input\\jigsaw-toxic-comment-classification-challenge\\'
-tool_dir = 'text-preprocessing-tools-light\\'
+input_dir = 'kaggle/input/jigsaw-toxic-comment-classification-challenge/'
+tool_dir = 'text-preprocessing-tools-light/'
 
 
 with open(tool_dir + 'lemmatization-en.json') as file:
@@ -67,7 +67,7 @@ def remove_special_characters(text: str) -> str:
     text = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', r' ', text)
 
     # Remove \n\r
-    text = re.sub(r'/\\n+|\\r+|\n+|\r+/', r' ', text)
+    text = re.sub(r'//n+|/r+|\n+|\r+/', r' ', text)
 
     # Removing usernames
     text = re.sub(r'\[\[.*\]', r' ', text)
@@ -83,7 +83,7 @@ def remove_special_characters(text: str) -> str:
         text = re.sub(v, k, text)
     
     # Remove punctuation
-    text = re.sub(r'[]!"$%&()*+,./:;=#@?[\\^_`{|}~-]+', r' ', text)
+    text = re.sub(r'[]!"$%&()*+,./:;=#@?[/^_`{|}~-]+', r' ', text)
 
     # Replace appos
     words=[APPO[word] if word in APPO else word for word in text.split()]
