@@ -30,7 +30,10 @@ class HillclimbBlender:
     1: simple RNN
     2: LSTM
     3: GRU
-    4: hybrid
+    4: hybrid LSTM + SVM
+    5: NBSVM
+
+    9: logistic regression
     '''
 
     def __init__(
@@ -151,7 +154,7 @@ def main() -> None:
     else:
         raise Exception("Something went wrong. cwd=" + getcwd())
 
-    blender = HillclimbBlender()
+    blender = HillclimbBlender(model_num=[1, 2, 3, 4, 5, 9])
     blender.run()
 
 if __name__ == '__main__':
