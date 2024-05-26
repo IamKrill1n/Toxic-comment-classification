@@ -31,6 +31,7 @@ class HillclimbBlender:
     2: LSTM (Tú)
     3: GRU (Tú)
     4: hybrid LSTM + GRU + feature (T. Thành)
+    
     5: NB with LR (?)
     6: NB with SVM (Vũ, H. Thành)
     7: SVM (Vũ)
