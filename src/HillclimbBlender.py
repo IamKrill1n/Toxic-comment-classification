@@ -27,13 +27,16 @@ class HillclimbBlender:
     
     where n is id of model:
 
-    1: simple RNN
-    2: LSTM
-    3: GRU
-    4: hybrid LSTM + SVM
-    5: NBSVM
-
-    9: logistic regression
+    1: simple RNN (Tú)
+    2: LSTM (Tú)
+    3: GRU (Tú)
+    4: hybrid LSTM + GRU + feature (T. Thành)
+    5: NB with LR (?)
+    6: NB with SVM (Vũ, H. Thành)
+    7: SVM (Vũ)
+    8: NB (H. Thành)
+    9: logistic regression (T. Thành)
+    10: random forest (?)
     '''
 
     def __init__(
