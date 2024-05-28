@@ -161,4 +161,4 @@ cython_debug/
 
 # Big Files
 glove_embeddings/
-model_checkpoint/
+# model_checkpoint/
