@@ -162,5 +162,6 @@ cython_debug/
 # Big Files
 glove_embeddings/
 *.vec
+*.h5
 hybrid.keras
 # model_checkpoint/
