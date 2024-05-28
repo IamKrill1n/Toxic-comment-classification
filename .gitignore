@@ -163,3 +163,4 @@ cython_debug/
 glove_embeddings/
 fasttext_embeddings/
 *.h5
+*.keras
