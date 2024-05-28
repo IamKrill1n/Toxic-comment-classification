@@ -102,7 +102,7 @@ def remove_numbers(text: str) -> str:
     remove_digits = str.maketrans('', '', string.digits)
     return text.translate(remove_digits)
 
-def clean_text_vanila(text: str) -> str:
+def clean_text_vanilla(text: str) -> str:
     # Remove special characters
     text = remove_special_characters(text)
     text = remove_numbers(text)
@@ -122,7 +122,7 @@ def clean_text_light(text: str) -> str:
 
 
 def main() -> None:
-    print(clean_text_vanila('dumb fuck say non sence hey dumb fuck know retard look like go look mirror fuck iamgodfuckyouassbiteneverdaremesswithkingvodious fuck youcantstopmeyoufuckingretardiwishyouwereheresoi couldstickmyfootupyourassanduseyouasanoddsandal'))
+    print(clean_text_vanilla('dumb fuck say non sence hey dumb fuck know retard look like go look mirror fuck iamgodfuckyouassbiteneverdaremesswithkingvodious fuck youcantstopmeyoufuckingretardiwishyouwereheresoi couldstickmyfootupyourassanduseyouasanoddsandal'))
 
 if __name__ == '__main__':
     main()
