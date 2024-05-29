@@ -163,8 +163,8 @@ class HillclimbBlender:
 
 def main() -> None:
 
-    blender = HillclimbBlender(model_num=[3, 9])
-    blender.run(iter=200)
+    blender = HillclimbBlender(model_num=[1, 2, 3, 4, 5, 9])
+    blender.run(iter=100)
     print()
 
 if __name__ == '__main__':
