@@ -9,7 +9,8 @@ comp = 'jigsaw-toxic-comment-classification-challenge/'
 TRAIN_DATA_FILE=f'{path}{comp}train.csv.zip'
 TEST_DATA_FILE=f'{path}{comp}test.csv.zip'
 SAMPLE_SUBMISSION=f'{path}{comp}sample_submission.csv.zip'
-SUBMISSION_FOLDER = 'kaggle/working/'
+SUBMISSION_FOLDER = 'kaggle/working/k-fold/'
+OUTPUT = 'kaggle/working/hillclimb-blending/'
 
 from os import chdir, path, getcwd
 for i in range(10):
@@ -55,6 +56,7 @@ class HillclimbBlender:
             test_df_path: str = TEST_DATA_FILE,
             submission_folder_path: str = SUBMISSION_FOLDER,
             sample_submission_path: str = SAMPLE_SUBMISSION,
+            output: str = OUTPUT,
             model_num: list = [1, 2, 3, 4]
             ) -> None:
         
@@ -63,6 +65,7 @@ class HillclimbBlender:
         self.labels = self.train.columns[2:]
         self.model_num = model_num
         self.submission_folder = submission_folder_path
+        self.output = output
 
         self.sample_submission = pd.read_csv(sample_submission_path)
 
@@ -154,14 +157,15 @@ class HillclimbBlender:
         
         blend = self.get_optimal_blend(opt_w)
         
-        blend.to_csv(self.submission_folder + 'hillclimb_' + '_'.join([str(i) for i in self.model_num]) + '.csv', index=False)
+        blend.to_csv(self.output + 'hillclimb_' + '_'.join([str(i) for i in self.model_num]) + '.csv', index=False)
 
 
 
 def main() -> None:
 
-    blender = HillclimbBlender(model_num=[1, 2, 3, 4, 5, 9])
-    blender.run()
+    blender = HillclimbBlender(model_num=[3, 9])
+    blender.run(iter=200)
+    print()
 
 if __name__ == '__main__':
     main()
