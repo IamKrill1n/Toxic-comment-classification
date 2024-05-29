@@ -1,13 +1,15 @@
-from os import chdir, path, getcwd
 import json
 import re
 import string
 from unidecode import unidecode
 
-if getcwd().endswith("src"):
+from os import chdir, path, getcwd
+for i in range(10):
+    if path.isfile("checkcwd"):
+        break
     chdir(path.pardir)
 if path.isfile("checkcwd"):
-    print("Success")
+    pass
 else:
     raise Exception("Something went wrong. cwd=" + getcwd())
 

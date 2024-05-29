@@ -11,6 +11,16 @@ TEST_DATA_FILE=f'{path}{comp}test.csv.zip'
 SAMPLE_SUBMISSION=f'{path}{comp}sample_submission.csv.zip'
 SUBMISSION_FOLDER = 'kaggle/working/'
 
+from os import chdir, path, getcwd
+for i in range(10):
+    if path.isfile("checkcwd"):
+        break
+    chdir(path.pardir)
+if path.isfile("checkcwd"):
+    pass
+else:
+    raise Exception("Something went wrong. cwd=" + getcwd())
+
 class HillclimbBlender:
     '''
     Adapt from https://www.cs.cornell.edu/~alexn/papers/shotgun.icml04.revised.rev2.pdf
@@ -149,13 +159,6 @@ class HillclimbBlender:
 
 
 def main() -> None:
-    from os import chdir, path, getcwd
-    if getcwd().endswith("src"):
-        chdir(path.pardir)
-    if path.isfile("checkcwd"):
-        print("Success")
-    else:
-        raise Exception("Something went wrong. cwd=" + getcwd())
 
     blender = HillclimbBlender(model_num=[1, 2, 3, 4, 5, 9])
     blender.run()

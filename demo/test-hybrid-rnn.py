@@ -6,6 +6,8 @@ import numpy as np
 import re
 from keras.preprocessing.sequence import pad_sequences
 
+import sys
+sys.path.append('src')
 
 import tensorflow as tf
 
@@ -13,9 +15,8 @@ gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
     try:
         tf.config.experimental.set_virtual_device_configuration(gpus[0],
-       [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=7168)])
+       [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=4096)])
         logical_gpus = tf.config.experimental.list_logical_devices('GPU')
-        print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
     except RuntimeError as e:
         # Virtual devices must be set before GPUs have been initialized
         print(e)
@@ -23,10 +24,11 @@ if gpus:
 from joblib import load
 
 from os import chdir, path, getcwd
-if getcwd().endswith("src"):
+for i in range(10):
+    if path.isfile("checkcwd"):
+        break
     chdir(path.pardir)
 if path.isfile("checkcwd"):
-    # print("Success")
     pass
 else:
     raise Exception("Something went wrong. cwd=" + getcwd())
@@ -37,10 +39,10 @@ from data_preprocessing.get_tools import clean_text_light
 
 
 
-loaded_model = keras.saving.load_model('src/hybrid-rnn/hybrid.keras')
+loaded_model = keras.saving.load_model('model_checkpoint/hybrid_rnn/hybrid.keras')
 
-ss = load('src/hybrid-rnn/scaler.bin')
-tokenizer = load('src/hybrid-rnn/tokenizer.bin')
+ss = load('model_checkpoint/hybrid_rnn/scaler.bin')
+tokenizer = load('model_checkpoint/hybrid_rnn/tokenizer.bin')
 
 while True:
     comment_text = str(input('>>> '))
@@ -48,8 +50,10 @@ while True:
     comment_text = clean_text_light(comment_text)
 
     if comment_text == '':
-        print('empty comment')
-        exit()
+        # print('empty comment')
+        result = np.array([0, 0, 0, 0, 0, 0])
+        print(result)
+        continue
 
 
 
@@ -74,4 +78,5 @@ while True:
 
 
     predict = loaded_model.predict([X_te, test_features])
-    print(predict)
+    print(predict.reshape(-1, ))
+    # print(type(predict))
