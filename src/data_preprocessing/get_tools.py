@@ -89,7 +89,7 @@ def remove_special_characters(text: str) -> str:
 
 def split_numbers_from_characters(text: str) -> str:
     # Split numbers and characters
-    parts = re.split('(\d+)', text)
+    parts = re.split(r'(\d+)', text)
     
     # If there was a number and a character part, add a space between them
     if len(parts) > 1:
