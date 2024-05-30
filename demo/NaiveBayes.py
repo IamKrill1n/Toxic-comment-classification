@@ -23,7 +23,7 @@ class NaiveBayes:
     def __init__(self) -> None:
         self.loaded_models = []
         for i in range(6):
-            self.loaded_models.append(load(f'src/NaiveBayes/nb_models/naive_bayes_tfidf/naive_bayes_tfidf{i}.joblib'))
+            self.loaded_models.append(load(f'model_checkpoint/naive_bayes_tfidf/naive_bayes_tfidf{i}.joblib'))
     
     def predict(self, query: str) -> 'np.ndarray':
         
