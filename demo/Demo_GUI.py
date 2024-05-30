@@ -4,8 +4,8 @@ import plotly.express as px
 from HybridRNN import HybridRNN
 from LogisticRegression import LogisticRegression
 from NaiveBayes import NaiveBayes
-from NBLR import NBLR
-from NBSVM import NBSVM
+# from NBLR import NBLR
+# from NBSVM import NBSVM
 from RNN import RNN 
 from SVM import SVM
 
@@ -15,8 +15,8 @@ print('Loading models...')
 hrnn = HybridRNN()
 lore = LogisticRegression()
 nb = NaiveBayes()
-nblr = NBLR()
-nbsvm = NBSVM()
+# nblr = NBLR()
+# nbsvm = NBSVM()
 rnn = RNN()
 svm = SVM()
 print('Models loaded.')
@@ -48,13 +48,13 @@ def toxicity_proba(comment, model):
         dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in nb.predict(comment).tolist()])
         return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
     
-    elif model == "NBSVM":
-        dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in nbsvm.predict(comment).tolist()])
-        return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+    # elif model == "NBSVM":
+    #     dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in nbsvm.predict(comment).tolist()])
+    #     return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
     
-    elif model == 'NBLR':
-        dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in nblr.predict(comment).tolist()])
-        return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+    # elif model == 'NBLR':
+    #     dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in nblr.predict(comment).tolist()])
+    #     return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
     
     elif model == 'RNN':
         dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in rnn.predict(comment).tolist()])
@@ -70,7 +70,8 @@ demo = gr.Interface(
     fn=toxicity_proba,
     inputs=[
         gr.Textbox(label='Comment', placeholder="Enter comment here"),
-        gr.Radio(["Hybrid RNN", "Logistic Regression", "Naive Bayes", "NBSVM", "NBLR", "RNN", "SVM"], label="Model")
+        # gr.Radio(["Hybrid RNN", "Logistic Regression", "Naive Bayes", "NBSVM", "NBLR", "RNN", "SVM"], label="Model")
+        gr.Radio(["Hybrid RNN", "Logistic Regression", "Naive Bayes", "RNN", "SVM"], label="Model")
     ],
     outputs=gr.Plot()
 )

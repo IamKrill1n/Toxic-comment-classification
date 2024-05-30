@@ -16,21 +16,21 @@ from keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import load_model
 
 class RNN:
-    def __init__(self, model_path, tokenizer_path = 'model_checkpoint/rnn/tokenizer.json'):
+    def __init__(self, model_path = 'model_checkpoint/rnn/glove300_lstm.keras', tokenizer_path = 'model_checkpoint/rnn/tokenizer.json'):
         self.model = load_model(model_path)
         with open(tokenizer_path) as f:
             data = json.load(f)
             self.tokenizer = tokenizer_from_json(data)
     
-    def predict(self, comments) -> 'np.ndarray':
-        comments = [clean_text_vanilla(comment) for comment in comments]
-        sequences = self.tokenizer.texts_to_sequences(comments)
+    def predict(self, comment) -> 'np.ndarray':
+        comment = clean_text_vanilla(comment)
+        sequences = self.tokenizer.texts_to_sequences([comment])
         X = pad_sequences(sequences, maxlen=100)
-        return self.model.predict([X])[0]
+        return self.model.predict([X]).reshape(-1, )
 
 if __name__ == "__main__":
     model = RNN('model_checkpoint/rnn/glove300_lstm.keras')
     while True:
         query = str(input('>>> '))
-        res = model.predict([query])
+        res = model.predict(query)
         print(res)
