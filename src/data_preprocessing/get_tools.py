@@ -2,6 +2,7 @@ from os import chdir, path, getcwd
 import json
 import re
 import string
+from unidecode import unidecode
 
 
 input_dir = 'kaggle/input/jigsaw-toxic-comment-classification-challenge/'
@@ -111,6 +112,54 @@ def clean_text_vanilla(text: str) -> str:
 def clean_text_light(text: str) -> str:
     # Remove special characters
     text = remove_special_characters(text)
+    text = remove_numbers(text)
+    # lemmatization
+    words = [lemmatizer.get(word, word) for word in text.split()]
+    # Remove numbers again as lemma might have numbers
+    words = remove_numbers(' '.join(words)).split()
+    # Remove stopwords
+    words = [word for word in words if word not in stopwords]
+    return ' '.join(words)
+
+def clean_text_allcase(text: str) -> str:
+    # Remove special characters
+    # https://pypi.org/project/Unidecode/
+    text = unidecode(text)
+
+    # Remove non ascii characters: this will remove any emoji too
+    text = re.sub(r'[^\x00-\x7f]', r' ', text)
+
+    # Remove link
+    text = re.sub(r'(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)', r' ', text)
+
+    # Remove leaky elements like ip, user
+    text = re.sub(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', r' ', text)
+
+    # Remove \n\r
+    text = re.sub(r'//n+|/r+|\n+|\r+/', r' ', text)
+
+    # Removing usernames
+    text = re.sub(r'\[\[.*\]', r' ', text)
+
+    # Reduce lengthening
+    # https://rustyonrampage.github.io/text-mining/2017/11/28/spelling-correction-with-python-and-nltk.html
+    text = re.sub(lengthening_pattern, r'\1\1', text)
+
+    # Check for common bad words 'workaround'
+    text = re.sub(r' ', r'   ', text)
+    text = f' {text} '
+    for k, v in badwords_fix.items():
+        text = re.sub(v, k, text)
+    
+    # Remove punctuation
+    # this will keep some common punctuation
+    text = re.sub(r'[]"$%&()*+/:;=#@[/^_`{|}~]+', r' ', text)
+
+    # Replace appos
+    words=[APPO[word] if word in APPO else word for word in text.split()]
+    text = ' '.join(words)
+    text = re.sub(r"'", '', text)
+    
     text = remove_numbers(text)
     # lemmatization
     words = [lemmatizer.get(word, word) for word in text.split()]

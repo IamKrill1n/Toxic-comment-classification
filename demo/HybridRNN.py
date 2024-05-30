@@ -25,7 +25,7 @@ else:
     raise Exception("Something went wrong. cwd=" + getcwd())
 
 import constants
-from data_preprocessing.get_tools import clean_text_light
+from data_preprocessing.get_tools import clean_text_allcase
 
 
 
@@ -54,7 +54,7 @@ class HybridRNN:
 
     def predict(self, query: str) -> 'np.ndarray':
 
-        query = clean_text_light(query)
+        query = clean_text_allcase(query)
 
         if query == '':
             result = np.array([0, 0, 0, 0, 0, 0])
