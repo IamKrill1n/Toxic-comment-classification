@@ -16,7 +16,7 @@ from keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import load_model
 
 class RNN:
-    def __init__(self, model_path = 'model_checkpoint/rnn/glove300_lstm.keras', tokenizer_path = 'model_checkpoint/rnn/tokenizer.json'):
+    def __init__(self, model_path = 'model_checkpoint/rnnglove50_lstm.keras', tokenizer_path = 'model_checkpoint/rnntokenizer.json'):
         self.model = load_model(model_path)
         with open(tokenizer_path) as f:
             data = json.load(f)
@@ -29,7 +29,7 @@ class RNN:
         return self.model.predict([X]).reshape(-1, )
 
 if __name__ == "__main__":
-    model = RNN('model_checkpoint/rnn/glove300_lstm.keras')
+    model = RNN('model_checkpoint/rnnglove50_lstm.keras')
     while True:
         query = str(input('>>> '))
         res = model.predict(query)
