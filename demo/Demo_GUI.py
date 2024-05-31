@@ -22,9 +22,13 @@ svm = SVM()
 print('Models loaded.')
 
 def create_dataframe(classes, probabilities):
+    # Create a dictionary to maintain the order of classes
+    class_order = {cls: i for i, cls in enumerate(classes)}
+    # Sort the classes based on their order
+    sorted_classes = sorted(classes, key=lambda x: class_order[x])
     dataframe =  pd.DataFrame(
         {
-            "Classes": classes,
+            "Classes": sorted_classes,
             "Toxicity probabilities": probabilities
             
         }
@@ -38,31 +42,36 @@ classes = ['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hat
 def toxicity_proba(comment, model):
     if model == "Hybrid RNN":
         dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in hrnn.predict(comment).tolist()])
-        return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+        fig = px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
     
     elif model == "Logistic Regression":
         dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in lore.predict(comment).tolist()])
-        return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+        fig = px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
     
     elif model == "Naive Bayes":
         dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in nb.predict(comment).tolist()])
-        return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+        fig = px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
     
     # elif model == "NBSVM":
     #     dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in nbsvm.predict(comment).tolist()])
-    #     return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+    #     fig = px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
     
     # elif model == 'NBLR':
     #     dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in nblr.predict(comment).tolist()])
-    #     return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+    #     fig = px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
     
     elif model == 'RNN':
         dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in rnn.predict(comment).tolist()])
-        return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+        fig = px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
     
     elif model == "SVM":
         dataframe = create_dataframe(classes, [float("{:.4f}".format(proba))*100 for proba in svm.predict(comment).tolist()])
-        return px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+        fig = px.bar(dataframe, x='Classes', y='Toxicity probabilities', color='Color', color_discrete_map={'red': 'red', 'blue': 'blue'})
+    
+    fig.update_yaxes(range=[0, 100])
+    fig.update_layout(xaxis={'categoryorder':'array', 'categoryarray':classes})
+    
+    return fig
 
 
 # Define the Gradio interface
