@@ -166,3 +166,5 @@ fasttext_embeddings/
 *.h5
 hybrid.keras
 model_checkpoint/
+distilbert-finetuned-multi-label/
+results/
